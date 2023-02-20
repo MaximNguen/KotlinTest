@@ -1,9 +1,15 @@
-data class Datas(val name: String, var currentMoney: Int, var healthPoints: Int, var heals: Int)
+ data class Datas(val name: String, var currentMoney: Int, var healthPoints: Int, var heals: Int, var lottery: Int)
 
 fun main() {
     println("Введите свое имя в качестве игрока")
-    val player = Datas("Max", 0, 100, 2)
+    val lotteryNums = 1
+    val player = Datas("Max", 0, 100, 2, lotteryNums)
     val enemies = listOf(1,2,3)
+    val boostChoice = (1..5).random()
+    val boost: Int = when (boostChoice) {
+        1 -> 1
+        else -> 0
+    }
 
     println("Вас зовут ${player.name}. У вас 100 здоровья... \nУ вас есть зелья, которые лечал вас по 40 здоровья \nВы решили пойти в подземелье, где есть 10 уровней, смотря на вашу удачи и тактику, посмотрим сможете ли вы выжить... \nНа каждом этаже есть 3 прохода, в одной из них затаился враг, способный нанести вам 35 здоровья... Будьте осторожны с выбором прохода...")
 
@@ -38,6 +44,21 @@ fun main() {
                 break
             }
         }
+
+        if (i == 5) {
+            println("Вы дошли до стадии ЛОТЕРЕИ!!! У вас есть шанс 1/5 выиграть классные призы!")
+            if (player.lottery == boost) {
+                println("Вам повезло! Вы выиграли лотерею! В качестве это мы лечим вам до полного здоровья либо выдаем вам награду в воде 200 монет!")
+                if (player.healthPoints == 100) {
+                    player.currentMoney += 200
+                } else {
+                    player.healthPoints = 100
+                }
+            } else {
+                println("Вам не повезло(")
+            }
+        }
+
         if (player.healthPoints > 1 && playerPosition == enemyPosition) {
             player.currentMoney += 50
             println("За очистку уровня с врагом вы получаете 50 монет!")
